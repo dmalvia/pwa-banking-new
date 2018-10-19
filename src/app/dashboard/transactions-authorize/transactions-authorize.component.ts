@@ -83,7 +83,7 @@ export class TransactionsAuthorizeComponent implements OnInit {
         "remark":"testing",
         "txn": "TXN123450",
         "date":"13 OCT 2018",
-        "status":"Reject",
+        "status":"Rejected",
         "colour":"red"
       },
       {
@@ -94,7 +94,7 @@ export class TransactionsAuthorizeComponent implements OnInit {
         "remark":"testing",
         "txn": "TXN128j650",
         "date":"10 Sep 2018",
-        "status":"Reject",
+        "status":"Rejected",
         "colour":"red"
       }
     ]
