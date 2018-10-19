@@ -29,6 +29,9 @@ import { SharingService } from './services/sharing.service';
 import { MessagingService } from './services/notification-service';
 import { LocateAtmComponent } from './locate-atm/locate-atm.component';
 import { TransactionsAuthorizeComponent } from './dashboard/transactions-authorize/transactions-authorize.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule, ToastContainerModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -59,6 +62,9 @@ import { TransactionsAuthorizeComponent } from './dashboard/transactions-authori
     AngularFireAuthModule,
     AngularFireMessagingModule,
     AngularFireModule.initializeApp(environment.firebase),
+      BrowserAnimationsModule, // required animations module
+      ToastrModule.forRoot({ positionClass: 'inline' }),
+      ToastContainerModule
   ],
   providers: [
     BankService,
@@ -69,5 +75,5 @@ import { TransactionsAuthorizeComponent } from './dashboard/transactions-authori
   bootstrap: [AppComponent]
 })
 export class AppModule {
-
+  
 }

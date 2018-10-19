@@ -24,7 +24,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4bb897', end
 }
 .greenbg {
   background:rgba(75,184,151,1) !important; 
-  border-color: rgba(75,184,151,1) !important;
+  border-color: rgba(43,138,86,1) !important;;
 }
 
 .greenbg:hover {

@@ -38,7 +38,9 @@ export class TransactionsAuthorizeComponent implements OnInit {
         "mode":"RTGS",
         "remark":"testing",
         "txn": "TXN123450",
-        "date":"16 Oct 2018"
+        "date":"16 Oct 2018",
+        "status":"Pending",
+        "colour":"orange"
       },
       {
         "from":"Current Account",
@@ -47,7 +49,53 @@ export class TransactionsAuthorizeComponent implements OnInit {
         "mode":"NEFT",
         "remark":"testing",
         "txn": "RQN128j650",
-        "date":"10 Oct 2018"
+        "date":"10 Oct 2018",
+        "status":"Pending",
+        "colour":"orange"
+      },
+      {
+        "from":"Current Account",
+        "to":"DXT InfoSystem",
+        "amount":"25,000",
+        "mode":"NEFT",
+        "remark":"testing",
+        "txn": "TXN123450",
+        "date":"20 Sep 2018",
+        "status":"Approved",
+        "colour":"green"
+      },
+      {
+        "from":"Current Account",
+        "to":"Media Temple",
+        "amount":"45,000",
+        "mode":"RTGS",
+        "remark":"testing",
+        "txn": "TXN128j650",
+        "date":"10 Sep 2018",
+        "status":"Approved",
+        "colour":"green"
+      },
+      {
+        "from":"Current Account",
+        "to":"ABC Corporation",
+        "amount":"78,000",
+        "mode":"RTGS",
+        "remark":"testing",
+        "txn": "TXN123450",
+        "date":"13 OCT 2018",
+        "status":"Reject",
+        "colour":"red"
+      },
+      {
+        "from":"Current Account",
+        "to":"Media Temple",
+        "amount":"45,000",
+        "mode":"RTGS",
+        "remark":"testing",
+        "txn": "TXN128j650",
+        "date":"10 Sep 2018",
+        "status":"Reject",
+        "colour":"red"
       }
     ]
   }
@@ -69,20 +117,61 @@ export class TransactionsAuthorizeComponent implements OnInit {
     this.showFinalScreen = true;
     this.showTab = false;
     this.showSummary = false;
+    let token = "";
+    if (this.selectedBanking == 'corporate') {
+      JSON.parse(localStorage.getItem("users")).forEach(function(item) {
+        if (item.key == 'maker') {
+          token = item.payload;
+          console.log("token", token);
+        }
+      })
+    }
     if(act == 'maker') {
-      this.message = 'Request rejected send back to maker !!';
+      this.message = `Fund transfer request of ₹ ${this.txnDetail.amount} has been rejected, please initiate a new transaction!!`;
     }
     else {
-      this.message = 'Request approved Successfully !!';
+    this.message = `Fund transfer request of ₹ ${this.txnDetail.amount} has been approved!!`;
     }
+    this.notifunc(this.message, token);
   }
 
+  notifunc(msg, token) {
+      let obj = {
+        notification: {
+          title: "Fund Transfer!!",
+          body: msg,
+          click_action: "https://pwa-banking.firebaseapp.com/dashboard/txnauthorize",
+          icon: '../assets/alert.png',
+          badge: '../assets/alert.png',
+          vibrate: [500, 110, 500, 110, 450, 110, 200, 110, 170, 40, 450, 110, 200, 110, 170, 40, 500]
+        },
+        to: token
+      }
+    this.ds.getToken(obj).subscribe(res => {
+      console.log(res);
+    });
+  }
   showCommentBox() {
     this.showComment = true;
   }
 
  navigateToAccounts() {
     this.router.navigate(['/dashboard/accounts']);
+  }
+
+  setColor(status) {
+    let style;
+    if(status == 'Pending') {
+      style = {'color':'orange'} 
+    }
+    else if(status == 'Approved') {
+      style = {'color':'green'}  
+    }
+    else {
+     style = {'color':'red'} 
+    }
+
+    return style;
   }
 
 }

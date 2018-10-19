@@ -6,7 +6,7 @@
               <tr *ngFor="let item of dummyTxn" style="cursor: pointer;" (click)="showAllInfo(item)">
                 <td><div><b>{{item.date}}</b></div><div style="font-size: 12px;color:#aaa">{{item.txn}}</div></td>
                 <td style="vertical-align: middle;">{{item.mode}}</td>
-                <td style="vertical-align: middle;" class="text-right">{{item.amount}}</td>
+                <td class="text-right"><div><b>Rs {{item.amount}}</b></div><div style="font-size: 12px;" [ngStyle]="setColor(item.status)"><b>{{item.status}}</b></div></td>
               </tr> 
           </table>
           <div *ngIf="showSummary" class="summary" [ngClass]="{'summaryg':selectedBanking == 'corporate'}">
@@ -21,7 +21,7 @@
               <div>
                 <span>Amount</span>
                 <span>
-                  {{txnDetail.amount}}</span>
+                  Rs {{txnDetail.amount}}</span>
               </div>
               <div>
                 <span>Mode</span>
@@ -37,9 +37,10 @@
               </div>
               <hr style="margin:8px 0px 15px;">
               <div>
+                
+                <button *ngIf="!showComment && user == 'checker' && 'Pending' == txnDetail.status" style="margin-bottom:15px;" type="button" class="btn btn-primary transfer-btn" (click)="transferDone('checker')" [ngClass]="{'greenbg':selectedBanking == 'corporate'}">Approve</button>
+                <button *ngIf="!showComment && user == 'checker' && 'Pending' == txnDetail.status" type="button"  class="btn btn-primary transfer-btn color-red" (click)="showCommentBox()">Reject</button>
                 <button *ngIf="!showComment" style="margin-bottom:15px;" type="button " class="btn btn-primary color-orange transfer-btn" (click)="backToTable() ">Back</button>
-                <button *ngIf="!showComment && user == 'checker'" style="margin-bottom:15px;" type="button" class="btn btn-primary transfer-btn" (click)="transferDone('checker')" [ngClass]="{'greenbg':selectedBanking == 'corporate'}">Approve</button>
-                <button *ngIf="!showComment && user == 'checker'" type="button"  class="btn btn-primary transfer-btn color-red" (click)="showCommentBox()">Reject</button>
                 <button *ngIf="showComment"  style="margin-bottom:15px;" type="button" [ngClass]="{'greenbg':selectedBanking == 'corporate'}" class="btn btn-primary transfer-btn" (click)="transferDone('maker')">Submit</button>
                 <button *ngIf="showComment" type="button"  class="btn btn-primary transfer-btn color-orange" (click)="backToTable()">Cancel</button>
               </div>

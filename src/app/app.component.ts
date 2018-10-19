@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  message: any;
   loadedPage = '';
   position: any;
   router:Router;
@@ -20,13 +19,7 @@ export class AppComponent implements OnInit {
     this.router = _router;
   }
   ngOnInit() {
-    console.log("Dipesh Malvia");
-    const userId = 'user001';
-    this.messagingService.requestPermission(userId)
-    this.messagingService.receiveMessage()
-    this.message = this.messagingService.currentMessage
 
-    console.log(this.router.url);
     if(this.router.url == '/') {
       localStorage.removeItem("user");
       localStorage.removeItem("flag");

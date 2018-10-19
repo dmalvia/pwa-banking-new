@@ -90,6 +90,17 @@ export class FundtransferComponent implements OnInit {
     console.log("Final Screen" + this.toAccount)
     this.stepTwo = false;
     this.finalScreen = true;
+    
+    let token = "";
+    if (this.selectedBanking == 'corporate'){
+   JSON.parse(localStorage.getItem("users")).forEach(function(item){
+     if (item.key=='checker'){
+     token = item.payload;
+     console.log("token", token);
+     }
+   })
+       this.notifunc(this.txnObj, token);
+    }
     console.log("The transfer object is ", this.txnObj);
     this.txnArr.push(this.txnObj);
     localStorage.setItem("txnArray", JSON.stringify(this.txnArr));
@@ -107,7 +118,28 @@ export class FundtransferComponent implements OnInit {
     this.ds.sendFlag(false);
   }
 
+  notifunc(txnObj, token) {
+    // if(localStorage.getItem('user')=='maker'){
+      let obj = {
+        notification: {
+          title: "Fund Transfer!!",
+          body: `A new transaction has been initiated of ₹ ${txnObj.amount}, please take the appropriate actions`,
+          click_action: "https://pwa-banking.firebaseapp.com/dashboard/txnauthorize",
+          icon: '../assets/alert.png',
+          badge: '../assets/alert.png',
+          vibrate: [500,110,500,110,450,110,200,110,170,40,450,110,200,110,170,40,500]
+
+        },
+        to: token
+      }
+        this.ds.getToken(obj).subscribe(res => {
+          console.log(res);
+        })
+    // }
+  }
+
   showAlert() {
     alert("Payee Added successfully !!");
   }
+  
 }
